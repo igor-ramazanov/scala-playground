@@ -1,0 +1,14 @@
+target/
+/project/project
+/out
+.bloop/
+.bsp/
+.idea/
+.DS_Store
+/*.jar
+/*.tar
+/*.tar.gz
+/*.envrc
+/.metals
+/.vscode
+/*.sqlite.db
