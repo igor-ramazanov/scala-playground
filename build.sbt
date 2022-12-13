@@ -20,7 +20,11 @@ lazy val `scala-playground` = project
   .in(file("."))
   .enablePlugins(ScalaNativePlugin, Smithy4sCodegenPlugin)
   .settings(
-    scalaVersion := "3.2.1",
+    scalaVersion := "2.13.10",
+    Compile / smithy4sAllowedNamespaces := List(
+      "smithy.rules",
+      "com.amazonaws.ec2",
+    ),
     nativeConfig ~= {
       _.withBuildTarget(BuildTarget.application)
         .withCheck(true)
@@ -55,5 +59,6 @@ lazy val `scala-playground` = project
       "org.typelevel" %%% "cats-effect-kernel" % versions.catsEffect,
       "org.typelevel" %%% "log4cats-core" % versions.log4cats,
       "org.typelevel" %%% "vault" % versions.vault,
+      "software.amazon.smithy" % "smithy-rules-engine" % smithyVersion % Smithy4s,
     ),
   )

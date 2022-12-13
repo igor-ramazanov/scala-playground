@@ -1,25 +1,19 @@
 package tech.igorramazanov.playground
 
-import cats.effect.*
-import cats.effect.std.*
-import cats.syntax.all.*
-import com.amazonaws.dynamodb.*
-import com.comcast.ip4s.*
+import cats.effect._
+import com.amazonaws.ec2._
 import epollcat.EpollApp
-import org.http4s.*
-import org.http4s.dsl.*
 import org.http4s.ember.client.EmberClientBuilder
-import org.http4s.implicits.*
-import org.typelevel.log4cats.Logger
-import smithy4s.aws.*
-import smithy4s.aws.http4s.*
+import smithy4s.aws._
+import smithy4s.aws.http4s._
 
-object Main extends EpollApp.Simple:
+object Main extends EpollApp.Simple {
   def run: IO[Unit] =
     EmberClientBuilder
       .default[IO]
       .build
-      .flatMap(client => DynamoDB.awsClient(client, AwsRegion.EU_NORTH_1))
-      .use(dynamodb => dynamodb.describeTable(TableName("omelois-test")))
+      .flatMap(client => EC2.awsClient(client, AwsRegion.EU_NORTH_1))
+      .use(ec2 => ec2.describeImages().run)
       .flatMap(IO.println)
       .void
+}
